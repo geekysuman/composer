@@ -1,4 +1,4 @@
-<header>
+  <header>
     <nav class="indexnav">
         <div class="navcontent">
             <div class="navlogo">
@@ -11,8 +11,11 @@
                 <li>
                     <button id='app_testbutton' class="action" [routerLink]="['test']" [routerLinkActive]="['active']">Test</button>
                 </li>
+                <li>
+                    <button id='app_revertbutton' class="action" [routerLink]="['revert']" [routerLinkActive]="['active']">Revert</button>
+                </li>
             </ul>
-            <ul class="links navright">
+             <ul class="links navright"> 
                 <li class="withseparator">
                     <button class="action" [routerLink]="['identity']" [routerLinkActive]="['active']">
                         <span class="currentid" title="{{ identityService.currentIdentity | async }}">{{ identityService.currentIdentity | async }}</span>
@@ -37,7 +40,7 @@
             </ul>
         </div>
     </nav>
-</header>
+</header>    
 <main>
     <success></success>
     <router-outlet></router-outlet>

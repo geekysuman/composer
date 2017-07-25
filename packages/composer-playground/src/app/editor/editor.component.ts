@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Uploader }      from 'angular2-http-file-upload';
 
 import { ImportComponent } from './import/import.component';
 import { AddFileComponent } from './add-file/add-file.component';
@@ -11,6 +12,7 @@ import { ClientService } from '../services/client.service';
 import { InitializationService } from '../services/initialization.service';
 import { AlertService } from '../basic-modals/alert.service';
 import { EditorService } from './editor.service';
+import { UploadFile }  from '../services/upload-item.service';
 
 import { ModelFile, Script, ScriptManager, ModelManager, AclManager, AclFile, QueryFile, QueryManager } from 'composer-common';
 
@@ -61,7 +63,8 @@ export class EditorComponent implements OnInit, OnDestroy {
                 private initializationService: InitializationService,
                 private modalService: NgbModal,
                 private alertService: AlertService,
-                private editorService: EditorService) {
+                private editorService: EditorService,
+                public uploaderService: Uploader) {
 
     }
 
@@ -402,7 +405,27 @@ export class EditorComponent implements OnInit, OnDestroy {
             let file = new File([exportedData],
                 this.clientService.getBusinessNetworkName() + '.bna',
                 {type: 'application/octet-stream'});
-            saveAs(file);
+            // console.log("file", file);
+            // saveAs(file);
+            // let uploadFile = file;
+            let UploadFileItem = new UploadFile(file);
+            UploadFileItem.formData = { 
+                user: '1',
+                // user: 'suman.sarkar@imaginea.com',
+                bna_file_name: 'newtest.bna',
+            };
+            
+            this.uploaderService.onSuccessUpload = (item, response, status, headers) => {
+                // success callback
+                console.log("Successfully Uploaded");
+            };
+            this.uploaderService.onErrorUpload = (item, response, status, headers) => {
+                // error callback
+            };
+            this.uploaderService.onCompleteUpload = (item, response, status, headers) => {
+                // complete callback, called regardless of success or failure
+            };
+            this.uploaderService.upload(UploadFileItem);
         });
     }
 

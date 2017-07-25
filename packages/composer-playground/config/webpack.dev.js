@@ -22,7 +22,8 @@ const HOST = process.env.HOST || '0.0.0.0';
 const PORT = process.env.PORT || 3000;
 const DOCKER = !!process.env.DOCKER;
 const DOCKER_COMPOSE = !!process.env.DOCKER_COMPOSE;
-const PLAYGROUND_API = process.env.PLAYGROUND_API || 'http://localhost:15699';
+const PLAYGROUND_API = process.env.PLAYGROUND_API || 'http://localhost_playground_api';
+const PUBLISH_URL = process.env.PUBLISH_URL || 'http://localhost_publish_url';
 const METADATA = webpackMerge(commonConfig({env : ENV}).metadata, {
   host : HOST,
   port : PORT,
@@ -105,6 +106,7 @@ module.exports = function (options) {
         'DOCKER' : DOCKER,
         'DOCKER_COMPOSE' : DOCKER_COMPOSE,
         'PLAYGROUND_API' : JSON.stringify(PLAYGROUND_API),
+        'PUBLISH_URL' : JSON.stringify(PUBLISH_URL),
         /* 'process.env': {
          'ENV': JSON.stringify(METADATA.ENV),
          'NODE_ENV': JSON.stringify(METADATA.ENV),
@@ -140,7 +142,7 @@ module.exports = function (options) {
      *
      * See: https://webpack.github.io/docs/webpack-dev-server.html
      */
-    devServer : {
+    /* devServer : {
       port : METADATA.port,
       host : METADATA.host,
       historyApiFallback : true,
@@ -148,7 +150,7 @@ module.exports = function (options) {
         aggregateTimeout : 300,
         poll : 1000
       }
-    },
+    }, */
 
     /*
      * Include polyfills or mocks for various node stuff

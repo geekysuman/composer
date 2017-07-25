@@ -5,9 +5,8 @@ import { HttpModule } from '@angular/http';
 import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LocalStorageModule } from 'angular-2-local-storage';
-
 import { APP_BASE_HREF } from '@angular/common';
-
+import { Uploader }      from 'angular2-http-file-upload';
 /*
  * Platform and Environment providers/directives/pipes
  */
@@ -25,6 +24,9 @@ import { VersionCheckComponent } from './version-check';
 import { FooterComponent } from './footer';
 import { ServicesModule } from './services/services.module';
 import { DrawerModule } from './common/drawer';
+import { HomeComponent } from './home/home.component';
+import ActivateGuard from './guards/activate.guard'
+import AuthHelper from './helpers/auth.helper'
 
 let actionBasedIcons = require.context('../assets/svg/action-based', false, /.*\.svg$/);
 actionBasedIcons.keys().forEach(actionBasedIcons);
@@ -80,7 +82,10 @@ type StoreType = {
     providers: [ // expose our Services and Providers into Angular's dependency injection
         ENV_PROVIDERS,
         APP_PROVIDERS,
-        {provide: APP_BASE_HREF, useValue: '/'},
+        Uploader,
+        ActivateGuard,
+        AuthHelper,
+        {provide: APP_BASE_HREF, useValue: '/playground'},
     ]
 })
 export class AppModule {
