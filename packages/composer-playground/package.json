@@ -52,6 +52,7 @@
     "preversion": "npm test",
     "protractor": "protractor",
     "rimraf": "rimraf",
+    "server:auth": "node server/index.js",
     "server:dev:hmr": "npm run server:dev -- --inline --hot",
     "server:dev": "webpack-dev-server --config config/webpack.dev.js --progress --profile --watch --content-base src/",
     "server:prod": "http-server dist --cors --push-state",
