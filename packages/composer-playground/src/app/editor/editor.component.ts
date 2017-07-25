@@ -402,6 +402,7 @@ export class EditorComponent implements OnInit, OnDestroy {
             let file = new File([exportedData],
                 this.clientService.getBusinessNetworkName() + '.bna',
                 {type: 'application/octet-stream'});
+            // console.log("file", file);
             saveAs(file);
         });
     }

@@ -76,6 +76,7 @@
   },
   "dependencies": {
     "@ng-bootstrap/ng-bootstrap": "1.0.0-alpha.24",
+    "angular2-google-login": "^1.0.9",
     "cheerio": "^0.22.0",
     "composer-common": "0.10.1",
     "composer-playground-api": "0.10.1",

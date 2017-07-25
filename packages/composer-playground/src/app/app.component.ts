@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { AuthService, AppGlobals } from 'angular2-google-login';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
