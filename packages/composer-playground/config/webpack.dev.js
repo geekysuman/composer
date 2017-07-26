@@ -140,7 +140,7 @@ module.exports = function (options) {
      *
      * See: https://webpack.github.io/docs/webpack-dev-server.html
      */
-    devServer : {
+    /* devServer : {
       port : METADATA.port,
       host : METADATA.host,
       historyApiFallback : true,
@@ -148,7 +148,7 @@ module.exports = function (options) {
         aggregateTimeout : 300,
         poll : 1000
       }
-    },
+    }, */
 
     /*
      * Include polyfills or mocks for various node stuff

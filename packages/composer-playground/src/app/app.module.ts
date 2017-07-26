@@ -7,7 +7,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LocalStorageModule } from 'angular-2-local-storage';
 
 import { APP_BASE_HREF } from '@angular/common';
-
+import ActivateGuard from './guards/activate.guard'
 /*
  * Platform and Environment providers/directives/pipes
  */
@@ -80,6 +80,7 @@ type StoreType = {
     providers: [ // expose our Services and Providers into Angular's dependency injection
         ENV_PROVIDERS,
         APP_PROVIDERS,
+        ActivateGuard,
         {provide: APP_BASE_HREF, useValue: '/'},
     ]
 })

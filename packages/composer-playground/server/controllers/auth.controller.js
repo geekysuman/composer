@@ -2,7 +2,7 @@
 // import request from 'request'
 // import config from '../config'
 import User from '../models/user.model'
-import LMSKeyMap from '../models/lms-key-map.model'
+// import LMSKeyMap from '../models/lms-key-map.model'
 // import { getRandomNumber } from '../helpers/function.helper'
 
 export class AuthController {
