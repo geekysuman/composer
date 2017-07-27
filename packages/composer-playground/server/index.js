@@ -22,6 +22,7 @@ if (config.env === 'development') {
  app.use(require('webpack-dev-middleware')(webpack(require('../config/webpack.dev')({env: 'development'})))); 
 
 // Middlewares
+app.use(express.static(__dirname + '../dist'));
 /* app.use(express.static(__dirname + '/dist'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());  */
@@ -55,7 +56,7 @@ UserAuthRoute(app, passport); // Set up the passport authentication
 // Default - Route WildCard
 // Composer Playground landing page
 app.get('*', function(req, res) {
-  res.sendFile(path.join(__dirname, '../src/index.html'));
+  res.sendFile(path.join(__dirname, '../dist/index.html'));
 }); 
 
 // Start Server

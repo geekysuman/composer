@@ -19,6 +19,7 @@ import { LocalStorageService } from 'angular-2-local-storage';
 import { AboutService } from './services/about.service';
 import { TransactionService } from './services/transaction.service';
 import { ViewTransactionComponent } from './test/view-transaction';
+import AuthHelper from './helpers/auth.helper'
 
 /* tslint:disable-next-line:no-var-requires */
 const LZString = require('lz-string');
@@ -64,37 +65,48 @@ export class AppComponent implements OnInit, OnDestroy {
                 private modalService: NgbModal,
                 private localStorageService: LocalStorageService,
                 private aboutService: AboutService,
-                private transactionService: TransactionService) {
+                private transactionService: TransactionService,
+                private authHelper: AuthHelper) {
 
     }
 
     ngOnInit() {
-        this.subs = [
-            this.alertService.busyStatus$.subscribe((busyStatus) => {
-                this.onBusyStatus(busyStatus);
-            }),
-            this.alertService.errorStatus$.subscribe((errorStatus) => {
-                this.onErrorStatus(errorStatus);
-            }),
-            this.route.queryParams.subscribe((queryParams) => {
-                this.queryParamsUpdated(queryParams);
-            }),
-            this.transactionService.event$.subscribe((eventStatus) => {
-                this.onEvent(eventStatus);
-            }),
-            this.router.events.filter((e) => e instanceof NavigationEnd).subscribe((e) => {
-                if (e['url'] === '/') {
-                    this.openWelcomeModal();
-                } else {
-                    return this.checkVersion().then((success) => {
-                        if (!success) {
-                            this.openVersionModal();
-                        }
-                    });
-                }
+        console.log("Auth Status",this.authHelper.isAuthenticate())
+        this.authHelper.isAuthenticate()
+        .then(result => {
+                // return result.auth_status ? true : false
+                console.log("result inside app components", result);
+                if(result){
+                    this.subs = [
+                        this.alertService.busyStatus$.subscribe((busyStatus) => {
+                            this.onBusyStatus(busyStatus);
+                        }),
+                        this.alertService.errorStatus$.subscribe((errorStatus) => {
+                            this.onErrorStatus(errorStatus);
+                        }),
+                        this.route.queryParams.subscribe((queryParams) => {
+                            this.queryParamsUpdated(queryParams);
+                        }),
+                        this.transactionService.event$.subscribe((eventStatus) => {
+                            this.onEvent(eventStatus);
+                        }),
+                        this.router.events.filter((e) => e instanceof NavigationEnd).subscribe((e) => {
+                            if (e['url'] === '/') {
+                                this.openWelcomeModal();
+                            } else {
+                                return this.checkVersion().then((success) => {
+                                    if (!success) {
+                                        this.openVersionModal();
+                                    }
+                                });
+                            }
 
-            })
-        ];
+                        })
+                    ];
+                }else{
+                    window.location.href = 'http://localhost:3001/auth/google'
+                }
+        })
     }
 
     ngOnDestroy() {
@@ -137,7 +149,7 @@ export class AppComponent implements OnInit, OnDestroy {
                         throw new Error('Failed to navigate to main page');
                     }
                 });
-            })
+            }) 
             .catch((error) => {
                 this.alertService.errorStatus$.next(error);
             });
