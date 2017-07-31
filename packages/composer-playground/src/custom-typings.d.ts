@@ -62,6 +62,7 @@ declare var HMR: boolean;
 declare var DOCKER: boolean;
 declare var DOCKER_COMPOSE: boolean;
 declare var PLAYGROUND_API: string;
+declare var PUBLISH_URL: string;
 declare var System: SystemJS;
 
 interface SystemJS {
@@ -74,6 +75,7 @@ interface GlobalEnvironment {
     DOCKER: boolean;
     DOCKER_COMPOSE: boolean;
     PLAYGROUND_API: string;
+    PUBLISH_URL: string;
     SystemJS: SystemJS;
     System: SystemJS;
 }

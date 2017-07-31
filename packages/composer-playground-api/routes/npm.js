@@ -226,6 +226,50 @@ module.exports = (app) => {
             });
         });
     });
+
+    router.get('/api/downloadSampleNew', (req, res, next) => {
+        let chosenSample = req.query;
+        const method = 'GET /api/downloadSample';
+        LOG.entry(method, chosenSample);
+        // Download the package tarball.
+        console.log('.bna file link',chosenSample.tarball);
+        client.fetch(chosenSample.tarball, {}, (error, stream) => {
+            if (error) {
+                return res.status(httpstatus.INTERNAL_SERVER_ERROR).json({error : error});
+            }
+
+            // Set up a tar parser that selects BNA files.
+            const tarParse = new tar.Parse({
+                filter : (path) => {
+                    return path.match(/\.bna$/);
+                }
+            });
+            console.log('tarparse',tarParse.filter);
+            // console.log('stream',stream);
+            // Go through every entry.
+            // const pipe = stream.pipe(tarParse);
+            const pipe = stream.pipe();
+            console.log('pipe',pipe);
+            pipe.on('entry', (entry) => {
+                console.log('entry in entry',entry);
+                LOG.debug(method, 'Found business network archive in package', entry.path);
+                let buffer = Buffer.alloc(0);
+                entry.on('data', (data) => {
+                    // Collect the data.
+                    // console.log('data in buffer entry',data);
+                    buffer = Buffer.concat([buffer, data]);
+                });
+                entry.on('end', () => {
+                    LOG.exit(method, null);
+                    res.set({
+                        'Content-Type' : 'text/plain; charset=x-user-defined',
+                    });
+                    console.log('buffer in buffer',buffer);
+                    return res.send(buffer);
+                });
+            });
+        });
+    });
 };
 
 
