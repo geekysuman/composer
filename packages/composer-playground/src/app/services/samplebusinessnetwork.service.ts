@@ -16,8 +16,7 @@ export class SampleBusinessNetworkService {
     }
 
     public getSampleList() {
-        return this.http.get('http://localhost:7577/getsamplelist')
-        // return this.http.get(PLAYGROUND_API + '/api/getSampleList')
+        return this.http.get(PLAYGROUND_API + '/api/getSampleList')
             .toPromise()
             .then((response) => {
                 return response.json();
