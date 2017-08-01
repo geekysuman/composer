@@ -7,14 +7,14 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export default class AuthHelper {
 
-  private accountStatusUrl = 'http://localhost:3001/account'; 
+  private accountStatusUrl = 'http://localhost:3000/account'; 
   
   constructor(private http: Http) {}
   
   isAuthenticate() { 
     return this.http.get(this.accountStatusUrl)
-              .map((res:Response) =>{
-                console.log("inside into map",res);
+              .map((res:Response) => {
+                // console.log("inside into map",res);
                 const result = res.json()
                 return result.auth_status ? true : false
               }).toPromise()

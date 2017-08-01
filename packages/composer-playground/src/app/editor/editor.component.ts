@@ -13,6 +13,8 @@ import { InitializationService } from '../services/initialization.service';
 import { AlertService } from '../basic-modals/alert.service';
 import { EditorService } from './editor.service';
 import { UploadFile }  from '../services/upload-item.service';
+import AuthHelper from '../helpers/auth.helper';
+
 
 import { ModelFile, Script, ScriptManager, ModelManager, AclManager, AclFile, QueryFile, QueryManager } from 'composer-common';
 
@@ -64,7 +66,8 @@ export class EditorComponent implements OnInit, OnDestroy {
                 private modalService: NgbModal,
                 private alertService: AlertService,
                 private editorService: EditorService,
-                public uploaderService: Uploader) {
+                public uploaderService: Uploader,
+                private authHelper: AuthHelper) {
 
     }
 
@@ -401,6 +404,16 @@ export class EditorComponent implements OnInit, OnDestroy {
     }
 
     exportBNA() {
+        console.log("Auth Status",this.authHelper.isAuthenticate())
+        this.authHelper.isAuthenticate()
+        .then(result => {
+                // return result.auth_status ? true : false
+                console.log("result inside app components", result);
+                if(result){
+                }else{
+                    window.location.href = ''
+                }
+        })
         return this.clientService.getBusinessNetwork().toArchive().then((exportedData) => {
             let file = new File([exportedData],
                 this.clientService.getBusinessNetworkName() + '.bna',

@@ -19,7 +19,7 @@ import { LocalStorageService } from 'angular-2-local-storage';
 import { AboutService } from './services/about.service';
 import { TransactionService } from './services/transaction.service';
 import { ViewTransactionComponent } from './test/view-transaction';
-import AuthHelper from './helpers/auth.helper'
+import AuthHelper from './helpers/auth.helper';
 
 /* tslint:disable-next-line:no-var-requires */
 const LZString = require('lz-string');
@@ -71,16 +71,6 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        /* console.log("Auth Status",this.authHelper.isAuthenticate())
-        this.authHelper.isAuthenticate()
-        .then(result => {
-                // return result.auth_status ? true : false
-                console.log("result inside app components", result);
-                if(result){
-                }else{
-                    window.location.href = ''
-                }
-        }) */
         this.subs = [
             this.alertService.busyStatus$.subscribe((busyStatus) => {
                 this.onBusyStatus(busyStatus);
