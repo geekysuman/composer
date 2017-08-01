@@ -70,7 +70,7 @@ app.get('/playground/*', function(req, res) {
 
 
 // Start Server
-app.listen(config.port, 'localhost', function(err) {
+app.listen(config.port, config.host, function(err) {
   if (err) {
     console.log(err);
     return;
