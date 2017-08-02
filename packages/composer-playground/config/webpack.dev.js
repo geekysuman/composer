@@ -22,9 +22,12 @@ const HOST = process.env.HOST || '0.0.0.0';
 const PORT = process.env.PORT || 3000;
 const DOCKER = !!process.env.DOCKER;
 const DOCKER_COMPOSE = !!process.env.DOCKER_COMPOSE;
-const PLAYGROUND_API = process.env.PLAYGROUND_API || 'https://composer-playground.mybluemix.net';
+// const PLAYGROUND_API = process.env.PLAYGROUND_API || 'https://composer-playground.mybluemix.net';
 // const PLAYGROUND_API = process.env.PLAYGROUND_API || 'http://localhost_playground_api';
-const PUBLISH_URL = process.env.PUBLISH_URL || 'http://localhost_publish_url';
+// const PLAYGROUND_API = process.env.PLAYGROUND_API || 'http://35.164.104.24:8888/';
+const PLAYGROUND_API = process.env.PLAYGROUND_API || 'http://localhost:15699';
+const PUBLISH_URL = process.env.PUBLISH_URL || 'http://35.164.104.24:8888/api/v1/bna/';
+// const PUBLISH_URL = process.env.PUBLISH_URL || 'http://localhost_publish_url';
 const METADATA = webpackMerge(commonConfig({env : ENV}).metadata, {
   host : HOST,
   port : PORT,

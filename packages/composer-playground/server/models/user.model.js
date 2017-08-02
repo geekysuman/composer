@@ -16,6 +16,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  hashId: {
+    type: String,
+    default: ''
+  },
   created: {
     type: Date,
     default: Date.now

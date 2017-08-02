@@ -75,7 +75,8 @@ export class ImportComponent implements OnInit {
         this.gitHubInProgress = true;
         this.sampleBusinessNetworkService.getSampleList()
             .then((sampleNetworkList) => {
-                this.sampleNetworks = this.orderGitHubProjects(sampleNetworkList);
+                this.sampleNetworks = this.orderGitHubProjects(sampleNetworkList.results);
+                console.log('sample networks', sampleNetworkList.results);
                 this.gitHubInProgress = false;
 
             })
@@ -121,7 +122,9 @@ export class ImportComponent implements OnInit {
             if (result === true) {
                 this.deployInProgress = true;
                 let deployPromise;
+                console.log("inside deployment confirm..",this.currentBusinessNetwork);
                 if (this.currentBusinessNetwork) {
+                    console.log('currentBusinessNetwork',this.currentBusinessNetwork);
                     deployPromise = this.sampleBusinessNetworkService.deployBusinessNetwork(this.currentBusinessNetwork);
                 } else {
                     deployPromise = this.deployFromNpm();
@@ -196,7 +199,7 @@ export class ImportComponent implements OnInit {
         } else {
 
             let chosenSampleNetwork = this.sampleNetworks.find((sampleNetwork) => {
-                return sampleNetwork.name === this.chosenNetwork;
+                return sampleNetwork.user === this.chosenNetwork;
             });
 
             return this.sampleBusinessNetworkService.deployChosenSample(chosenSampleNetwork);

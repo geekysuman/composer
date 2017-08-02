@@ -210,6 +210,10 @@ export class ClientService {
     getBusinessNetworkName() {
         return this.getBusinessNetwork().getMetadata().getName();
     }
+    
+    getBusinessNetworkVersion() {
+        return this.getBusinessNetwork().getMetadata().getVersion();
+    }
 
     setBusinessNetworkVersion(version: string) {
         let name = this.getBusinessNetwork().getMetadata().getName();

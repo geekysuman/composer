@@ -405,41 +405,41 @@ export class EditorComponent implements OnInit, OnDestroy {
 
     exportBNA() {
         console.log("Auth Status",this.authHelper.isAuthenticate())
-        this.authHelper.isAuthenticate()
-        .then(result => {
+        // this.authHelper.isAuthenticate()
+        /* .then(result => {
                 // return result.auth_status ? true : false
                 console.log("result inside app components", result);
                 if(result){
                 }else{
-                    window.location.href = ''
+                    // window.location.href = ''
+                    console.log("user not logged in.");
                 }
-        })
-        return this.clientService.getBusinessNetwork().toArchive().then((exportedData) => {
-            let file = new File([exportedData],
-                this.clientService.getBusinessNetworkName() + '.bna',
-                {type: 'application/octet-stream'});
-            // console.log("file", file);
-            // saveAs(file);
-            // let uploadFile = file;
-            let UploadFileItem = new UploadFile(file);
-            UploadFileItem.formData = { 
-                user: '1',
-                // user: 'suman.sarkar@imaginea.com',
-                bna_file_name: 'newtest.bna',
-            };
+        })  */
+        // return this.clientService.getBusinessNetwork().toArchive().then((exportedData) => {
+        //     console.log(this.clientService.getBusinessNetworkName() +'_'+ this.clientService.getBusinessNetworkVersion() +'_6a5c6f96_'+  Date.now() + '.bna');
+        //     const file_name = this.clientService.getBusinessNetworkName() +'_'+ this.clientService.getBusinessNetworkVersion() +'_6a5c6f96_'+  Date.now() + '.bna';
+        //     let file = new File([exportedData],
+        //         file_name,
+        //         {type: 'application/octet-stream'});
+        //     let UploadFileItem = new UploadFile(file);
+        //     UploadFileItem.formData = { 
+        //         user: '6a5c6f96',
+        //         bna_file_name: file_name,
+        //     };
             
-            this.uploaderService.onSuccessUpload = (item, response, status, headers) => {
-                // success callback
-                console.log("Successfully Uploaded");
-            };
-            this.uploaderService.onErrorUpload = (item, response, status, headers) => {
-                // error callback
-            };
-            this.uploaderService.onCompleteUpload = (item, response, status, headers) => {
-                // complete callback, called regardless of success or failure
-            };
-            this.uploaderService.upload(UploadFileItem);
-        });
+        //     // Publish .bna file 
+        //     /* this.uploaderService.onSuccessUpload = (item, response, status, headers) => {
+        //         // success callback
+        //         console.log("Successfully Uploaded",response);
+        //     };
+        //     this.uploaderService.onErrorUpload = (item, response, status, headers) => {
+        //         // error callback
+        //     };
+        //     this.uploaderService.onCompleteUpload = (item, response, status, headers) => {
+        //         // complete callback, called regardless of success or failure
+        //     };
+        //     this.uploaderService.upload(UploadFileItem);   */
+        // });
     }
 
     openAddFileModal() {

@@ -16,7 +16,7 @@ export class SampleBusinessNetworkService {
     }
 
     public getSampleList() {
-        return this.http.get(PLAYGROUND_API + '/api/getSampleList')
+        return this.http.get(PUBLISH_URL + '?user=6a5c6f96')
             .toPromise()
             .then((response) => {
                 return response.json();
