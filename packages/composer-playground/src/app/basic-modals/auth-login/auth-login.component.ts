@@ -17,20 +17,17 @@ export class AuthLoginComponent {
         var host = window.location.protocol + "//" + window.location.host;
         switch(target){
             case "google":
-                window.location.href =  host +  "/auth/google";
+                window.location.href =  BASE_URL +  "/auth/google";
                 break;
-
             case "twitter":
-                window.location.href = "http://localhost:3000/auth/twitter";
-
+                window.location.href = BASE_URL + "/auth/twitter";
+                break;
             case "github":
-                window.location.href = "http://localhost:3000/auth/github";
-
+                window.location.href = BASE_URL + "/auth/github";
+                break;
             case "facebook":
-                window.location.href = "http://localhost:3000/auth/facebook";
-
-            default:
-                window.location.href = "http://localhost:3000/auth/google";
+                window.location.href = BASE_URL + "/auth/facebook";
+                break;
         }
     }
 }

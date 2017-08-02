@@ -1,6 +1,6 @@
 import User from '../models/user.model';
 import ensureAuthenticated from '../helpers/user.auth';
-import secretKey from './config.js';
+import config from '../config.js';
 
 const UserAuthRoute = (app, passport, jwt) => {
 
@@ -20,14 +20,14 @@ const UserAuthRoute = (app, passport, jwt) => {
                 res.json({ 
                     profileObj: user,
                     auth_status: true,
-                    token: jwt.sign(res.user.email, secretKey)
+                    token: jwt.sign(res.user.email, config.secretKey)
                 });
             }
         });
     });
 
     app.get('/verifyToken', function (req, res) {
-        jwt.verify(req.token, secretKey, function(err, data){
+        jwt.verify(req.token, config.secretKey, function(err, data){
             if(err){
                 res.sendStatus(403);
             } else {
@@ -86,10 +86,7 @@ const UserAuthRoute = (app, passport, jwt) => {
 
     app.get('/auth/github',
         passport.authenticate('github', {
-            scope: [
-                'profile',
-                'email'
-            ]
+            scope: [ 'user:email' ]
         }
         ));
 
