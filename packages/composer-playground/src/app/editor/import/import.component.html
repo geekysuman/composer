@@ -89,9 +89,9 @@
         <perfect-scrollbar *ngIf="!gitHubInProgress" class="sample-network-list-container">
           <div class="sample-network-list" *ngFor=" let sampleNetwork of sampleNetworks; let networkIndex=index">
             <input id="sampleNetwork{{networkIndex}}" type="radio" name="sampleNetwork" [(ngModel)]="chosenNetwork"
-                   value="{{sampleNetwork.user}}">
-            <label class="radio-label" for="sampleNetwork{{networkIndex}}">{{sampleNetwork.bna_file_name}}</label>
-            <div class="description">{{sampleNetwork.description}}</div>
+                   value="{{sampleNetwork.bna_file_name}}">
+            <label class="radio-label" for="sampleNetwork{{networkIndex}}">{{sampleNetwork.app_name}}</label>
+            <div class="description">v{{sampleNetwork.version}}</div>
           </div>
         </perfect-scrollbar>
     </div>

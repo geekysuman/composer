@@ -199,7 +199,7 @@ export class ImportComponent implements OnInit {
         } else {
 
             let chosenSampleNetwork = this.sampleNetworks.find((sampleNetwork) => {
-                return sampleNetwork.user === this.chosenNetwork;
+                return sampleNetwork.bna_file_name === this.chosenNetwork;
             });
 
             return this.sampleBusinessNetworkService.deployChosenSample(chosenSampleNetwork);

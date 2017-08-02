@@ -71,6 +71,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.authHelper.storeUserAccount();
         this.subs = [
             this.alertService.busyStatus$.subscribe((busyStatus) => {
                 this.onBusyStatus(busyStatus);

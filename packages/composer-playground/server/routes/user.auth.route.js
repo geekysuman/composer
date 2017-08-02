@@ -86,9 +86,10 @@ const UserAuthRoute = (app, passport) => {
 
     app.get('/logout', function (req, res) {
         req.logout();
-        res.json({
+        /* res.json({
             status: true
-        })
+        }) */
+        res.redirect('/playground/editor');
     });
 
 }

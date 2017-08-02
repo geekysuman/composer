@@ -405,41 +405,48 @@ export class EditorComponent implements OnInit, OnDestroy {
     }
 
     exportBNA() {
-        console.log("Auth Status",this.authHelper.isAuthenticate())
-        // this.authHelper.isAuthenticate()
-        /* .then(result => {
-                // return result.auth_status ? true : false
-                console.log("result inside app components", result);
-                if(result){
-                }else{
-                    this.modalService.open(AuthLoginComponent);
-                }
-        })  */
-        // return this.clientService.getBusinessNetwork().toArchive().then((exportedData) => {
-        //     console.log(this.clientService.getBusinessNetworkName() +'_'+ this.clientService.getBusinessNetworkVersion() +'_6a5c6f96_'+  Date.now() + '.bna');
-        //     const file_name = this.clientService.getBusinessNetworkName() +'_'+ this.clientService.getBusinessNetworkVersion() +'_6a5c6f96_'+  Date.now() + '.bna';
-        //     let file = new File([exportedData],
-        //         file_name,
-        //         {type: 'application/octet-stream'});
-        //     let UploadFileItem = new UploadFile(file);
-        //     UploadFileItem.formData = { 
-        //         user: '6a5c6f96',
-        //         bna_file_name: file_name,
-        //     };
-            
-        //     // Publish .bna file 
-        //     /* this.uploaderService.onSuccessUpload = (item, response, status, headers) => {
-        //         // success callback
-        //         console.log("Successfully Uploaded",response);
-        //     };
-        //     this.uploaderService.onErrorUpload = (item, response, status, headers) => {
-        //         // error callback
-        //     };
-        //     this.uploaderService.onCompleteUpload = (item, response, status, headers) => {
-        //         // complete callback, called regardless of success or failure
-        //     };
-        //     this.uploaderService.upload(UploadFileItem);   */
-        // });
+        // console.log("Auth Status",this.authHelper.isAuthenticate())
+        if(this.authHelper.isAuthenticate()){
+            return this.clientService.getBusinessNetwork().toArchive().then((exportedData) => {
+                const file_name = this.clientService.getBusinessNetworkName() + '_'+ this.clientService.getBusinessNetworkVersion() + '_' + this.authHelper.getPresentUser().hash + '_' +  Date.now() + '.bna';
+                let file = new File([exportedData],
+                    file_name,
+                    {type: 'application/octet-stream'});
+                let UploadFileItem = new UploadFile(file);
+                UploadFileItem.formData = {
+                    app_name: this.clientService.getBusinessNetworkName()+'('+this.clientService.getBusinessNetworkVersion()+')',
+                    version: this.clientService.getBusinessNetworkVersion(),
+                    user: this.authHelper.getPresentUser().hash,
+                    bna_file_name: file_name,
+                };
+                
+                // Publish .bna file 
+                this.uploaderService.onSuccessUpload = (item, response, status, headers) => {
+                    // success callback
+                    console.log("Successfully Uploaded",response);
+                    const jsonResponse = JSON.parse(response);
+                    if(!this.authHelper.getEndPoint()){
+                       this.authHelper.setEndPoint(jsonResponse.api_end_point)
+                       console.log('inside session set point',this.authHelper.getEndPoint());
+                       
+                    }
+                    this.alertService.successStatus$.next({
+                        title: 'Successfully Published',
+                        text: 'Please check your api end point',
+                        icon: '#icon-deploy_24'
+                    });
+                };
+                this.uploaderService.onErrorUpload = (item, response, status, headers) => {
+                    // error callback
+                };
+                this.uploaderService.onCompleteUpload = (item, response, status, headers) => {
+                    // complete callback, called regardless of success or failure
+                };
+                this.uploaderService.upload(UploadFileItem);
+            });
+        }else{
+            this.modalService.open(AuthLoginComponent);
+        }
     }
 
     openAddFileModal() {

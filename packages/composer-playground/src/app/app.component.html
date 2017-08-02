@@ -14,11 +14,17 @@
             </ul>
              <ul class="links navright"> 
                 <li class="withseparator">
-                    <button class="action" [routerLink]="['identity']" [routerLinkActive]="['active']">
-                        <span class="currentid" title="{{ identityService.currentIdentity | async }}">{{ identityService.currentIdentity | async }}</span>
-                    </button>
+                        <span class="currentid" title=""><a  class='end-point-link' target='_blank' href="{{ authHelper.getEndPoint() ? authHelper.getEndPoint() : '#' }}">{{ authHelper.getEndPoint() ? 'End Point : ' + authHelper.getEndPoint() : '' }} &nbsp;</a></span>
                 </li>
-                <li *ngIf="!usingLocally">
+                <li class="withseparator">
+                    <!-- <button class="action" [routerLink]="['identity']" [routerLinkActive]="['active']"> -->
+                        <span class="currentid user-name" title="">{{ authHelper.getPresentUser() ? authHelper.getPresentUser().name : 'Guest User' }}</span>
+                    <!-- </button> -->
+                </li>
+                <li *ngIf="authHelper.getPresentUser()">
+                        <span class="currentid" title=""><a class='end-point-link' href="/logout">Logout</a></span>
+                </li>
+                <!-- <li *ngIf="!usingLocally">
                     <a href="https://hyperledger.github.io/composer/installing/using-playground-locally.html"
                        target="_blank">
                         <svg class="nav-icon" aria-hidden="true">
@@ -26,14 +32,14 @@
                         </svg>
                         <span>Get local version</span>
                     </a>
-                </li>
-                <li *ngIf="usingLocally">
+                </li> -->
+                <!-- <li *ngIf="usingLocally">
                     <button class="action" [routerLink]="['profile']" [routerLinkActive]="['active']">
                         <svg class="nav-icon" aria-hidden="true">
                             <use xlink:href="#icon-world_24"></use>
                         </svg>
                     </button>
-                </li>
+                </li> -->
             </ul>
         </div>
     </nav>
