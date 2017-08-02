@@ -1,4 +1,7 @@
 import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
+import { Strategy as FacebookStrategy } from 'passport-facebook';
+import { Strategy as TwitterStrategy } from 'passport-twitter';
+import { Strategy as GitHubStrategy } from 'passport-github';
 import config from '../config'
 import User from '../models/user.model';
 import { AuthController } from '../controllers/auth.controller';
@@ -25,6 +28,33 @@ const passportStrategy = (passport) => {
             AuthCtrl.findOrCreateUser(profile, done);
         }
     ));
+    passport.use(new FacebookStrategy({
+        clientID: config.facebook.clientID,
+        clientSecret: config.facebook.clientSecret,
+        callbackURL: config.facebook.callbackURL
+        },
+        function(request, accessToken, refreshToken, profile, done) {
+            AuthCtrl.findOrCreateUser(profile, done);
+        }
+    )); 
+    passport.use(new TwitterStrategy({
+        consumerKey: config.twitter.clientID,
+        consumerSecret: config.twitter.clientSecret,
+        callbackURL: config.twitter.callbackURL
+        },
+        function(request, accessToken, refreshToken, profile, done) {
+            AuthCtrl.findOrCreateUser(profile, done);
+        }
+    ));        
+    passport.use(new GitHubStrategy({
+        clientID: config.github.clientID,
+        clientSecret: config.github.clientSecret,
+        callbackURL: config.github.callbackURL
+        },
+        function(request, accessToken, refreshToken, profile, done) {
+            AuthCtrl.findOrCreateUser(profile, done);
+        }
+    ));            
 }
 
 export default passportStrategy

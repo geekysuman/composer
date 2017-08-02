@@ -39,6 +39,51 @@ const UserAuthRoute = (app, passport) => {
             res.redirect('/playground/editor');
         });
 
+    app.get('/auth/facebook',
+        passport.authenticate('facebook', {
+            scope: [
+                'profile',
+                'email'
+            ]
+        }
+        ));
+
+    app.get('/auth/facebook/callback',
+        passport.authenticate('facebook', { failureRedirect: '/' }),
+        function (req, res) {
+            res.redirect('/playground/editor');
+        });
+
+    app.get('/auth/twitter',
+        passport.authenticate('twitter', {
+            scope: [
+                'profile',
+                'email'
+            ]
+        }
+        ));
+
+    app.get('/auth/twitter/callback',
+        passport.authenticate('twitter', { failureRedirect: '/' }),
+        function (req, res) {
+            res.redirect('/playground/editor');
+        });
+
+    app.get('/auth/github',
+        passport.authenticate('github', {
+            scope: [
+                'profile',
+                'email'
+            ]
+        }
+        ));
+
+    app.get('/auth/github/callback',
+        passport.authenticate('github', { failureRedirect: '/' }),
+        function (req, res) {
+            res.redirect('/playground/editor');
+        });
+
     app.get('/logout', function (req, res) {
         req.logout();
         res.json({

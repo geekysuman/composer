@@ -4,6 +4,7 @@ import { Uploader }      from 'angular2-http-file-upload';
 
 import { ImportComponent } from './import/import.component';
 import { AddFileComponent } from './add-file/add-file.component';
+import { AuthLoginComponent } from '../basic-modals/auth-login/auth-login.component';
 import { DeleteComponent } from '../basic-modals/delete-confirm/delete-confirm.component';
 import { ReplaceComponent } from '../basic-modals/replace-confirm';
 
@@ -411,7 +412,7 @@ export class EditorComponent implements OnInit, OnDestroy {
                 console.log("result inside app components", result);
                 if(result){
                 }else{
-                    window.location.href = ''
+                    this.modalService.open(AuthLoginComponent);
                 }
         })
         return this.clientService.getBusinessNetwork().toArchive().then((exportedData) => {
