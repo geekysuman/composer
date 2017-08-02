@@ -1,7 +1,8 @@
 import User from '../models/user.model';
 import ensureAuthenticated from '../helpers/user.auth';
+import secretKey from './config.js';
 
-const UserAuthRoute = (app, passport) => {
+const UserAuthRoute = (app, passport, jwt) => {
 
     app.get('/usernotfound/', function (req, res) {
         res.json({ 
@@ -18,8 +19,21 @@ const UserAuthRoute = (app, passport) => {
             } else {
                 res.json({ 
                     profileObj: user,
-                    auth_status: true 
+                    auth_status: true,
+                    token: jwt.sign(res.user.email, secretKey)
                 });
+            }
+        });
+    });
+
+    app.get('/verifyToken', function (req, res) {
+        jwt.verify(req.token, secretKey, function(err, data){
+            if(err){
+                res.sendStatus(403);
+            } else {
+                   res.json({
+                      email : data
+                   });
             }
         });
     });
@@ -36,6 +50,7 @@ const UserAuthRoute = (app, passport) => {
     app.get('/auth/google/callback',
         passport.authenticate('google', { failureRedirect: '/' }),
         function (req, res) {
+            
             res.redirect('/playground/editor');
         });
 
