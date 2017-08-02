@@ -1,0 +1,20 @@
+<div class="auth-login" tabindex="-1">
+  <div class="modal-header">
+    <h1>Login to Composer Playground</h1>
+    <button class="icon modal-exit" (click)="activeModal.close(false)">
+      <svg class="ibm-icon" aria-hidden="true">
+        <use xlink:href="#icon-close_new"></use>
+      </svg>
+    </button>
+  </div>
+  <section class="modal-body">
+     <button type="button" class="primary" (click)="navigate('facebook')">Sign In with Facebook</button>
+    <button type="button" class="primary" (click)="navigate('twitter')">Sign In with Twitter</button>
+    <button type="button" class="primary" (click)="navigate('google')">Sign In with Google</button>
+    <button type="button" class="primary" (click)="navigate('github')">Sign In with GitHub</button>   
+    <!-- <button type="button" class="primary">Sign In with Facebook</button>
+    <button type="button" class="primary">Sign In with Twitter</button>
+    <button type="button" class="primary">Sign In with Google</button>
+    <button type="button" class="primary">Sign In with GitHub</button>        -->
+  </section>
+</div>
