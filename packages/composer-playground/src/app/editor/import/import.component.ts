@@ -6,6 +6,7 @@ import { ClientService } from '../../services/client.service';
 import { SampleBusinessNetworkService } from '../../services/samplebusinessnetwork.service';
 import { AlertService } from '../../basic-modals/alert.service';
 import { ReplaceComponent } from '../../basic-modals/replace-confirm';
+import AuthHelper from '../../helpers/auth.helper';
 
 import { BusinessNetworkDefinition } from 'composer-common';
 import { ErrorComponent } from '../../basic-modals/error';
@@ -57,7 +58,8 @@ export class ImportComponent implements OnInit {
                 public activeModal: NgbActiveModal,
                 public modalService: NgbModal,
                 private sampleBusinessNetworkService: SampleBusinessNetworkService,
-                private alertService: AlertService) {
+                private alertService: AlertService,
+                private authHelper: AuthHelper) {
 
     }
 
@@ -73,17 +75,21 @@ export class ImportComponent implements OnInit {
 
     onShow() {
         this.gitHubInProgress = true;
-        this.sampleBusinessNetworkService.getSampleList()
-            .then((sampleNetworkList) => {
-                this.sampleNetworks = this.orderGitHubProjects(sampleNetworkList.results);
-                console.log('sample networks', sampleNetworkList.results);
-                this.gitHubInProgress = false;
+        if(this.authHelper.isAuthenticate()){
+            this.sampleBusinessNetworkService.getSampleList()
+                .then((sampleNetworkList) => {
+                    this.sampleNetworks = this.orderGitHubProjects(sampleNetworkList.results);
+                    console.log('sample networks', sampleNetworkList.results);
+                    this.gitHubInProgress = false;
 
-            })
-            .catch((error) => {
-                this.gitHubInProgress = false;
-                this.alertService.errorStatus$.next(error);
-            });
+                })
+                .catch((error) => {
+                    this.gitHubInProgress = false;
+                    this.alertService.errorStatus$.next(error);
+                });
+        }else{
+            this.gitHubInProgress = false;
+        }
     }
 
     orderGitHubProjects(networks: any[]): any[] {

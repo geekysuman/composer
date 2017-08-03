@@ -100,6 +100,8 @@
     "passport-github2": "^0.1.10",
     "passport-google-oauth2": "^0.1.6",
     "passport-twitter": "^1.0.4",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1",
     "socket.io": "^1.7.3",
     "typescript": "2.4.0",
     "web-animations-js": "^2.2.5",

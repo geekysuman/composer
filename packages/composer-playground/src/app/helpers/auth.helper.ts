@@ -8,7 +8,6 @@ import 'rxjs/add/operator/toPromise';
 export default class AuthHelper {
 
   private accountStatusUrl = BASE_URL+'/account'; 
-  // private accountStatusUrl = 'http://localhost:3000/account'; 
   
   constructor(private http: Http) {}
   
@@ -58,15 +57,16 @@ export default class AuthHelper {
               .map((res:Response) => {
                 const result = res.json();
                 console.log("user account details", result);
-                // const token = result.profileObj.token;
                 if(result.auth_status){
+                  const token = result.token;
                   const user = {
                     name : result.profileObj.name,
                     email : result.profileObj.email,
-                    hash : '6a5c6f96'
+                    hash : result.profileObj.hashId
                   };
                   const userAccount = {
-                    user: user
+                    user: user,
+                    token
                   };
                     return userAccount;
                 }
@@ -78,8 +78,10 @@ export default class AuthHelper {
     this.fetchUserAccount()
     .then((userAccount)=>{
       // console.log('User Account session',userAccount.user)
-      if(userAccount)
+      if(userAccount){
         this.storePresentUser(userAccount.user)
+        this.storeToken(userAccount.token)
+      }
       else
         this.deleteUserAccount();
     })

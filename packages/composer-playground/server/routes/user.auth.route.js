@@ -20,19 +20,23 @@ const UserAuthRoute = (app, passport, jwt) => {
                 res.json({ 
                     profileObj: user,
                     auth_status: true,
-                    token: jwt.sign(res.user.email, config.secretKey)
+                    token: jwt.sign(user.email, config.secretKey)
                 });
             }
         });
     });
 
-    app.get('/verifyToken', function (req, res) {
-        jwt.verify(req.token, config.secretKey, function(err, data){
+    app.get('/verifyToken/:token', function (req, res) {
+        console.log('token', req.params.token);
+        jwt.verify(req.params.token, config.secretKey, function(err, data){
             if(err){
-                res.sendStatus(403);
+                res.json({
+                    status: false
+                });
             } else {
                    res.json({
-                      email : data
+                      email : data,
+                      status : true
                    });
             }
         });
@@ -49,8 +53,7 @@ const UserAuthRoute = (app, passport, jwt) => {
 
     app.get('/auth/google/callback',
         passport.authenticate('google', { failureRedirect: '/' }),
-        function (req, res) {
-            
+        function (req, res) {            
             res.redirect('/playground/editor');
         });
 

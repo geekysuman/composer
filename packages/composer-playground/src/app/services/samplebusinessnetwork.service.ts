@@ -4,19 +4,22 @@ import { Http, RequestOptions, URLSearchParams }    from '@angular/http';
 import { AdminService } from './admin.service';
 import { ClientService } from './client.service';
 import { AlertService } from '../basic-modals/alert.service';
-
+import AuthHelper from '../helpers/auth.helper';
 import { BusinessNetworkDefinition } from 'composer-common';
+
 
 @Injectable()
 export class SampleBusinessNetworkService {
     constructor(private adminService: AdminService,
                 private clientService: ClientService,
                 private alertService: AlertService,
-                private http: Http) {
+                private http: Http,
+                private authHelper: AuthHelper) {
     }
 
-    public getSampleList() {
-        return this.http.get(PUBLISH_URL + '?user=6a5c6f96')
+    public getSampleList() {        
+        const userQuery = '?user=' + this.authHelper.getPresentUser().hash;
+        return this.http.get(PUBLISH_URL + userQuery)
             .toPromise()
             .then((response) => {
                 return response.json();
