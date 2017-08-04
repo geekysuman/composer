@@ -413,11 +413,15 @@ export class EditorComponent implements OnInit, OnDestroy {
                     file_name,
                     {type: 'application/octet-stream'});
                 let UploadFileItem = new UploadFile(file);
+                const publishedDate = new Date();
+                const publishedDateStr = publishedDate.toDateString();
+                const publishedTime = publishedDate.toLocaleTimeString();
                 UploadFileItem.formData = {
-                    app_name: this.clientService.getBusinessNetworkName()+'('+this.clientService.getBusinessNetworkVersion()+')',
+                    app_name: this.clientService.getBusinessNetworkName()+' ( '+this.clientService.getBusinessNetworkVersion()+' )',
                     version: this.clientService.getBusinessNetworkVersion(),
                     user: this.authHelper.getPresentUser().hash,
                     bna_file_name: file_name,
+                    description: "Published on " + publishedDateStr + ' ' + publishedTime
                 };
                 
                 // Publish .bna file 

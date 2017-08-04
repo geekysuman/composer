@@ -77,7 +77,8 @@
     </div>
       <div *ngIf="!expandInput">
         <span>Select your previous published app to deploy into Hyperledger Composer Playground</span>
-        <div *ngIf="!authHelper.isAuthenticate()"><br/><strong><span>Please, hit the publish button to view.</span></strong></div>
+        <!-- <div *ngIf="!authHelper.isAuthenticate()"><br/><strong><span>Please, hit the publish button to view.</span></strong></div> -->
+        <div *ngIf="emptyImportList"><br/><strong><span>Oops, you don't have any published app. Please, hit the publish button to view.</span></strong></div>
          <!-- <span>Select a sample to deploy into Hyperledger Composer Playground</span>  -->
         <div class="github-spinner" *ngIf="gitHubInProgress">
           <div class="ibm-spinner-indeterminate medium loop">
@@ -92,8 +93,8 @@
           <div class="sample-network-list" *ngFor=" let sampleNetwork of sampleNetworks; let networkIndex=index">
             <input id="sampleNetwork{{networkIndex}}" type="radio" name="sampleNetwork" [(ngModel)]="chosenNetwork"
                    value="{{sampleNetwork.bna_file_name}}">
-            <label class="radio-label" for="sampleNetwork{{networkIndex}}">{{sampleNetwork.bna_file_name}}</label>
-            <div class="description">{{sampleNetwork.version}}</div>
+            <label class="radio-label" for="sampleNetwork{{networkIndex}}">{{sampleNetwork.app_name}}</label>
+            <div class="description">{{sampleNetwork.description}}</div>
           </div>
         </perfect-scrollbar>
     </div>

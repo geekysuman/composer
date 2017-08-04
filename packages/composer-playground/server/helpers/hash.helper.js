@@ -12,10 +12,11 @@ export class HashHelper {
         rp(options)
         .then(function (result) {
             // Process html...
-            console.log("resutlt", result);
-            if(result.results)
-                callback(result.results[0] ? result.results[0].id : false);
-            callback(false)
+            console.log("result", result);
+            if(result.length)
+                callback(result[0].id);
+            else 
+                callback(false);
         })
         .catch(function (err) {
             // Crawling failed... 
@@ -36,8 +37,11 @@ export class HashHelper {
         rp(options)
         .then(function (result) {
             // Process html...
-            console.log('after create hash', result.results);
-            callback(result.results[0].id);
+            console.log('after create hash', result);
+            if(result)
+                callback(result.id);
+            else 
+                callback(false);
         })
         .catch(function (err) {
             // Crawling failed... 

@@ -23,6 +23,7 @@ export class ImportComponent implements OnInit {
 
     private deployInProgress: boolean = false;
     private gitHubInProgress: boolean = false;
+    private emptyImportList: boolean = true;
     private sampleNetworks = [];
     private primaryNetworkNames = ['basic-sample-network', 'carauction-network'];
     private chosenNetwork = null;
@@ -78,8 +79,10 @@ export class ImportComponent implements OnInit {
         if(this.authHelper.isAuthenticate()){
             this.sampleBusinessNetworkService.getSampleList()
                 .then((sampleNetworkList) => {
-                    this.sampleNetworks = this.orderGitHubProjects(sampleNetworkList.results);
-                    console.log('sample networks', sampleNetworkList.results);
+                    if(sampleNetworkList.length){
+                        this.emptyImportList = false;
+                        this.sampleNetworks = this.orderGitHubProjects(sampleNetworkList);
+                    }
                     this.gitHubInProgress = false;
 
                 })
@@ -95,7 +98,7 @@ export class ImportComponent implements OnInit {
     orderGitHubProjects(networks: any[]): any[] {
 
         let newOrder = [];
-        newOrder.push(this.EMPTY_BIZNET);
+        // newOrder.push(this.EMPTY_BIZNET);
 
         for (let i = 0; i < this.primaryNetworkNames.length; i++) {
             let primaryName = this.primaryNetworkNames[i];

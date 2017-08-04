@@ -14,10 +14,8 @@ export default class AuthHelper {
   isAuthenticate() {
     // this.storeUserAccount()
     if(this.getPresentUser()){
-      console.log("User logged in");
       return true
     }
-    console.log("Need to log.");
     return false
   }
   
