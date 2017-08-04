@@ -4,6 +4,7 @@ import { Uploader }      from 'angular2-http-file-upload';
 
 import { ImportComponent } from './import/import.component';
 import { AddFileComponent } from './add-file/add-file.component';
+import { AuthLoginComponent } from '../basic-modals/auth-login/auth-login.component';
 import { DeleteComponent } from '../basic-modals/delete-confirm/delete-confirm.component';
 import { ReplaceComponent } from '../basic-modals/replace-confirm';
 
@@ -13,6 +14,8 @@ import { InitializationService } from '../services/initialization.service';
 import { AlertService } from '../basic-modals/alert.service';
 import { EditorService } from './editor.service';
 import { UploadFile }  from '../services/upload-item.service';
+import AuthHelper from '../helpers/auth.helper';
+
 
 import { ModelFile, Script, ScriptManager, ModelManager, AclManager, AclFile, QueryFile, QueryManager } from 'composer-common';
 
@@ -64,7 +67,8 @@ export class EditorComponent implements OnInit, OnDestroy {
                 private modalService: NgbModal,
                 private alertService: AlertService,
                 private editorService: EditorService,
-                public uploaderService: Uploader) {
+                public uploaderService: Uploader,
+                private authHelper: AuthHelper) {
 
     }
 
@@ -401,32 +405,52 @@ export class EditorComponent implements OnInit, OnDestroy {
     }
 
     exportBNA() {
-        return this.clientService.getBusinessNetwork().toArchive().then((exportedData) => {
-            let file = new File([exportedData],
-                this.clientService.getBusinessNetworkName() + '.bna',
-                {type: 'application/octet-stream'});
-            // console.log("file", file);
-            // saveAs(file);
-            // let uploadFile = file;
-            let UploadFileItem = new UploadFile(file);
-            UploadFileItem.formData = { 
-                user: '1',
-                // user: 'suman.sarkar@imaginea.com',
-                bna_file_name: 'newtest.bna',
-            };
-            
-            this.uploaderService.onSuccessUpload = (item, response, status, headers) => {
-                // success callback
-                console.log("Successfully Uploaded");
-            };
-            this.uploaderService.onErrorUpload = (item, response, status, headers) => {
-                // error callback
-            };
-            this.uploaderService.onCompleteUpload = (item, response, status, headers) => {
-                // complete callback, called regardless of success or failure
-            };
-            this.uploaderService.upload(UploadFileItem);
-        });
+        // console.log("Auth Status",this.authHelper.isAuthenticate())
+        if(this.authHelper.isAuthenticate()){
+            return this.clientService.getBusinessNetwork().toArchive().then((exportedData) => {
+                const file_name = this.clientService.getBusinessNetworkName() + '_'+ this.clientService.getBusinessNetworkVersion() + '_' + this.authHelper.getPresentUser().hash + '_' +  Date.now() + '.bna';
+                let file = new File([exportedData],
+                    file_name,
+                    {type: 'application/octet-stream'});
+                let UploadFileItem = new UploadFile(file);
+                const publishedDate = new Date();
+                const publishedDateStr = publishedDate.toDateString();
+                const publishedTime = publishedDate.toLocaleTimeString();
+                UploadFileItem.formData = {
+                    app_name: this.clientService.getBusinessNetworkName()+' ( '+this.clientService.getBusinessNetworkVersion()+' )',
+                    version: this.clientService.getBusinessNetworkVersion(),
+                    user: this.authHelper.getPresentUser().hash,
+                    bna_file_name: file_name,
+                    description: "Published on " + publishedDateStr + ' ' + publishedTime
+                };
+                
+                // Publish .bna file 
+                this.uploaderService.onSuccessUpload = (item, response, status, headers) => {
+                    // success callback
+                    console.log("Successfully Uploaded",response);
+                    const jsonResponse = JSON.parse(response);
+                    if(!this.authHelper.getEndPoint()){
+                       this.authHelper.setEndPoint(jsonResponse.api_end_point)
+                       console.log('inside session set point',this.authHelper.getEndPoint());
+                       
+                    }
+                    this.alertService.successStatus$.next({
+                        title: 'Successfully Published',
+                        text: 'Please check your api end point',
+                        icon: '#icon-deploy_24'
+                    });
+                };
+                this.uploaderService.onErrorUpload = (item, response, status, headers) => {
+                    // error callback
+                };
+                this.uploaderService.onCompleteUpload = (item, response, status, headers) => {
+                    // complete callback, called regardless of success or failure
+                };
+                this.uploaderService.upload(UploadFileItem);
+            });
+        }else{
+            this.modalService.open(AuthLoginComponent);
+        }
     }
 
     openAddFileModal() {

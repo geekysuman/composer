@@ -6,6 +6,7 @@ import { ClientService } from '../../services/client.service';
 import { SampleBusinessNetworkService } from '../../services/samplebusinessnetwork.service';
 import { AlertService } from '../../basic-modals/alert.service';
 import { ReplaceComponent } from '../../basic-modals/replace-confirm';
+import AuthHelper from '../../helpers/auth.helper';
 
 import { BusinessNetworkDefinition } from 'composer-common';
 import { ErrorComponent } from '../../basic-modals/error';
@@ -22,6 +23,7 @@ export class ImportComponent implements OnInit {
 
     private deployInProgress: boolean = false;
     private gitHubInProgress: boolean = false;
+    private emptyImportList: boolean = true;
     private sampleNetworks = [];
     private primaryNetworkNames = ['basic-sample-network', 'carauction-network'];
     private chosenNetwork = null;
@@ -57,7 +59,8 @@ export class ImportComponent implements OnInit {
                 public activeModal: NgbActiveModal,
                 public modalService: NgbModal,
                 private sampleBusinessNetworkService: SampleBusinessNetworkService,
-                private alertService: AlertService) {
+                private alertService: AlertService,
+                private authHelper: AuthHelper) {
 
     }
 
@@ -73,22 +76,29 @@ export class ImportComponent implements OnInit {
 
     onShow() {
         this.gitHubInProgress = true;
-        this.sampleBusinessNetworkService.getSampleList()
-            .then((sampleNetworkList) => {
-                this.sampleNetworks = this.orderGitHubProjects(sampleNetworkList);
-                this.gitHubInProgress = false;
+        if(this.authHelper.isAuthenticate()){
+            this.sampleBusinessNetworkService.getSampleList()
+                .then((sampleNetworkList) => {
+                    if(sampleNetworkList.length){
+                        this.emptyImportList = false;
+                        this.sampleNetworks = this.orderGitHubProjects(sampleNetworkList);
+                    }
+                    this.gitHubInProgress = false;
 
-            })
-            .catch((error) => {
-                this.gitHubInProgress = false;
-                this.alertService.errorStatus$.next(error);
-            });
+                })
+                .catch((error) => {
+                    this.gitHubInProgress = false;
+                    this.alertService.errorStatus$.next(error);
+                });
+        }else{
+            this.gitHubInProgress = false;
+        }
     }
 
     orderGitHubProjects(networks: any[]): any[] {
 
         let newOrder = [];
-        newOrder.push(this.EMPTY_BIZNET);
+        // newOrder.push(this.EMPTY_BIZNET);
 
         for (let i = 0; i < this.primaryNetworkNames.length; i++) {
             let primaryName = this.primaryNetworkNames[i];
@@ -121,7 +131,9 @@ export class ImportComponent implements OnInit {
             if (result === true) {
                 this.deployInProgress = true;
                 let deployPromise;
+                console.log("inside deployment confirm..",this.currentBusinessNetwork);
                 if (this.currentBusinessNetwork) {
+                    console.log('currentBusinessNetwork',this.currentBusinessNetwork);
                     deployPromise = this.sampleBusinessNetworkService.deployBusinessNetwork(this.currentBusinessNetwork);
                 } else {
                     deployPromise = this.deployFromNpm();
@@ -196,7 +208,7 @@ export class ImportComponent implements OnInit {
         } else {
 
             let chosenSampleNetwork = this.sampleNetworks.find((sampleNetwork) => {
-                return sampleNetwork.name === this.chosenNetwork;
+                return sampleNetwork.bna_file_name === this.chosenNetwork;
             });
 
             return this.sampleBusinessNetworkService.deployChosenSample(chosenSampleNetwork);

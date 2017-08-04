@@ -195,6 +195,7 @@ module.exports = (app) => {
         const method = 'GET /api/downloadSample';
         LOG.entry(method, chosenSample);
         // Download the package tarball.
+        console.log('chosenSample ', chosenSample);
         client.fetch(chosenSample.tarball, {}, (error, stream) => {
             if (error) {
                 return res.status(httpstatus.INTERNAL_SERVER_ERROR).json({error : error});

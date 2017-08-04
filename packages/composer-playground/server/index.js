@@ -7,6 +7,8 @@ import mongoose from 'mongoose';
 import passport from 'passport';
 import session from 'express-session';
 import flash from 'connect-flash';
+import jwt from 'jsonwebtoken';
+
 import config from './config';
 import passportStrategy from './helpers/passport.strategy';
 import UserAuthRoute from './routes/user.auth.route';
@@ -50,7 +52,7 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
-UserAuthRoute(app, passport); // Set up the passport authentication
+UserAuthRoute(app, passport, jwt); // Set up the passport authentication
 
 // Route api
 // Default - Route WildCard
