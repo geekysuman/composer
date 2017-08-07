@@ -15,7 +15,7 @@ module.exports = {
   google: {
     clientID: 'google_auth_client_id',
     clientSecret: 'google_auth_client_secret', 
-    callbackURL: base_url+'/auth/google/callback'
+    callbackURL: 'http://composer-playground.pramati.com:3000/auth/google/callback'
   },
   facebook: {
     clientID: 'facebook_auth_client_id',
