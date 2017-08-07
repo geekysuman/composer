@@ -9,10 +9,10 @@ export class PlaygroundController {
         let chosenSample = req.query;
         // Download the package tarball.
         console.log('chosenSample ', chosenSample);
-        // const newTarball = chosenSample.tarball.replace('35.164.104.24','ec2-35-164-104-24.us-west-2.compute.amazonaws.com');
+        const newTarball = chosenSample.tarball.replace('35.164.104.24','ec2-35-164-104-24.us-west-2.compute.amazonaws.com');
         // console.log('newTarball', newTarball);
-        // client.fetch(newTarball, {}, (error, stream) => {
-        client.fetch(chosenSample.tarball, {}, (error, stream) => {
+        client.fetch(newTarball, {}, (error, stream) => {
+        // client.fetch(chosenSample.tarball, {}, (error, stream) => {
             if (error) {
                 return res.status(httpstatus.INTERNAL_SERVER_ERROR).json({error : error});
             }

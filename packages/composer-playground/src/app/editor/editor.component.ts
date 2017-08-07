@@ -427,12 +427,15 @@ export class EditorComponent implements OnInit, OnDestroy {
                 // Publish .bna file 
                 this.uploaderService.onSuccessUpload = (item, response, status, headers) => {
                     // success callback
-                    console.log("Successfully Uploaded",response);
-                    const jsonResponse = JSON.parse(response);
+                    // console.log("type of response ",typeof response);
+                    let jsonResponse;
+                    if(typeof response === 'string')
+                        jsonResponse = JSON.parse(response);
+                    else
+                        jsonResponse = response;                        
                     if(!this.authHelper.getEndPoint()){
                        this.authHelper.setEndPoint(jsonResponse.api_end_point)
-                       console.log('inside session set point',this.authHelper.getEndPoint());
-                       
+                    //    console.log('inside session set point',this.authHelper.getEndPoint());
                     }
                     this.alertService.successStatus$.next({
                         title: 'Successfully Published',
