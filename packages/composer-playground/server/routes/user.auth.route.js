@@ -1,6 +1,8 @@
 import User from '../models/user.model';
 import ensureAuthenticated from '../helpers/user.auth';
 import config from '../config.js';
+import { PlaygroundController } from '../controllers/playground-api.controller';
+const PCtrl = new PlaygroundController();
 
 const UserAuthRoute = (app, passport, jwt) => {
 
@@ -106,6 +108,9 @@ const UserAuthRoute = (app, passport, jwt) => {
         }) */
         res.redirect('/playground/editor');
     });
+    
+    // Api to import .bna file
+    app.get('/api/downloadbna', PCtrl.downloadBna);
 
 }
 

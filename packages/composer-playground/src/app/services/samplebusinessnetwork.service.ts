@@ -41,7 +41,7 @@ export class SampleBusinessNetworkService {
         let requestOptions = new RequestOptions();
         requestOptions.search = params;
 
-        return this.http.get(PLAYGROUND_API + '/api/downloadSample', requestOptions)
+        return this.http.get('/api/downloadbna', requestOptions)
             .toPromise()
             .then((response) => {
                 console.log("Download Sample Response",response);
