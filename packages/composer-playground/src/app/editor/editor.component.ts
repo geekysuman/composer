@@ -43,6 +43,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     private noError: boolean = true;
     private dirty: boolean = false;
     private deploying: boolean = false;
+    private publishInProgress:boolean = false;
 
     private editActive: boolean = false; // Are the input boxes visible?
     private editingPackage: boolean = false; // Is the package.json being edited?
@@ -405,9 +406,10 @@ export class EditorComponent implements OnInit, OnDestroy {
     }
 
     exportBNA() {
-        // console.log("Auth Status",this.authHelper.isAuthenticate())
+                // console.log("Auth Status",this.authHelper.isAuthenticate())
         if(this.authHelper.isAuthenticate()){
             return this.clientService.getBusinessNetwork().toArchive().then((exportedData) => {
+                this.publishInProgress = true;
                 const file_name = this.clientService.getBusinessNetworkName() + '_'+ this.clientService.getBusinessNetworkVersion() + '_' + this.authHelper.getPresentUser().hash + '_' +  Date.now() + '.bna';
                 let file = new File([exportedData],
                     file_name,
@@ -427,7 +429,8 @@ export class EditorComponent implements OnInit, OnDestroy {
                 // Publish .bna file 
                 this.uploaderService.onSuccessUpload = (item, response, status, headers) => {
                     // success callback
-                    // console.log("type of response ",typeof response);
+                    // console.log("type of response "+typeof response, response);
+                    this.publishInProgress = false;
                     let jsonResponse;
                     if(typeof response === 'string')
                         jsonResponse = JSON.parse(response);
