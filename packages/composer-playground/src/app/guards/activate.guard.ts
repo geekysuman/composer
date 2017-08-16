@@ -6,11 +6,11 @@ import { Observable } from 'rxjs/Rx';
 
 @Injectable()
 export default class ActivateGuard implements CanActivate {
- 
+
   private can: boolean = true;
 
   constructor(private http: Http) {}
-   
+
   canActivate() {
     console.log('ActivateGuard#canActivate called, can: ', this.can);
     if (!this.can) {
@@ -22,5 +22,5 @@ export default class ActivateGuard implements CanActivate {
 
   // setCanActivate(can) {
   //   this.can = can;
-  // } 
+  // }
 }

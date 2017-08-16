@@ -140,8 +140,7 @@ export class AppComponent implements OnInit, OnDestroy {
                         throw new Error('Failed to navigate to main page');
                     }
                 });
-            }) 
-            .catch((error) => {
+            }) .catch((error) => {
                 this.alertService.errorStatus$.next(error);
             });
         }

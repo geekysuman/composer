@@ -1,0 +1,20 @@
+<section id="success_notify" class="container" *ngFor="let message of messages; let messagesIndex = index" @fadeInOut>
+    <button class="icon close" (click)="close(messagesIndex)">
+        <svg class="ibm-icon" aria-hidden="true">
+            <use xlink:href="#icon-close_new"></use>
+        </svg>
+    </button>
+    <div class="message">
+        <div class="github-spinner">
+            <div class="ibm-spinner-indeterminate medium loop">
+                <div class="loader">
+                    <svg class="circular" viewBox="25 25 50 50">
+                    <circle class="circle-path" cx="50" cy="50" r="20"/>
+                    </svg>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="publishText">{{message.title}}</div>  
+    </div>
+</section>

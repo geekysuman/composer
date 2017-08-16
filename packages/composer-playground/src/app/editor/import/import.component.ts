@@ -76,10 +76,10 @@ export class ImportComponent implements OnInit {
 
     onShow() {
         this.gitHubInProgress = true;
-        if(this.authHelper.isAuthenticate()){
+        if (this.authHelper.isAuthenticate() ) {
             this.sampleBusinessNetworkService.getSampleList()
                 .then((sampleNetworkList) => {
-                    if(sampleNetworkList.length){
+                    if (sampleNetworkList.length) {
                         this.emptyImportList = false;
                         this.sampleNetworks = this.orderGitHubProjects(sampleNetworkList);
                     }
@@ -90,7 +90,7 @@ export class ImportComponent implements OnInit {
                     this.gitHubInProgress = false;
                     this.alertService.errorStatus$.next(error);
                 });
-        }else{
+        } else {
             this.gitHubInProgress = false;
         }
     }
@@ -131,9 +131,9 @@ export class ImportComponent implements OnInit {
             if (result === true) {
                 this.deployInProgress = true;
                 let deployPromise;
-                console.log("inside deployment confirm..",this.currentBusinessNetwork);
+                console.log('inside deployment confirm..', this.currentBusinessNetwork);
                 if (this.currentBusinessNetwork) {
-                    console.log('currentBusinessNetwork',this.currentBusinessNetwork);
+                    console.log('currentBusinessNetwork', this.currentBusinessNetwork);
                     deployPromise = this.sampleBusinessNetworkService.deployBusinessNetwork(this.currentBusinessNetwork);
                 } else {
                     deployPromise = this.deployFromNpm();

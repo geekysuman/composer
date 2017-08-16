@@ -210,7 +210,7 @@ export class ClientService {
     getBusinessNetworkName() {
         return this.getBusinessNetwork().getMetadata().getName();
     }
-    
+
     getBusinessNetworkVersion() {
         return this.getBusinessNetwork().getMetadata().getVersion();
     }
