@@ -14,20 +14,21 @@ export class AuthLoginComponent {
     }
 
     navigate(target) {
-        var host = window.location.protocol + "//" + window.location.host;
-        switch(target){
-            case "google":
-                window.location.href =  BASE_URL +  "/auth/google";
+        switch (target) {
+            case 'google':
+                window.location.href =  BASE_URL +  '/auth/google';
                 break;
-            case "twitter":
-                window.location.href = BASE_URL + "/auth/twitter";
+            case 'twitter':
+                window.location.href = BASE_URL + '/auth/twitter';
                 break;
-            case "github":
-                window.location.href = BASE_URL + "/auth/github";
+            case 'github':
+                window.location.href = BASE_URL + '/auth/github';
                 break;
-            case "facebook":
-                window.location.href = BASE_URL + "/auth/facebook";
+            case 'facebook':
+                window.location.href = BASE_URL + '/auth/facebook';
                 break;
+            default:
+                window.location.href =  BASE_URL +  '/auth/google';
         }
     }
 }

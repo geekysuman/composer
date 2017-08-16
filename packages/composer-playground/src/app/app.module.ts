@@ -25,8 +25,8 @@ import { FooterComponent } from './footer';
 import { ServicesModule } from './services/services.module';
 import { DrawerModule } from './common/drawer';
 import { HomeComponent } from './home/home.component';
-import ActivateGuard from './guards/activate.guard'
-import AuthHelper from './helpers/auth.helper'
+import ActivateGuard from './guards/activate.guard';
+import AuthHelper from './helpers/auth.helper';
 
 let actionBasedIcons = require.context('../assets/svg/action-based', false, /.*\.svg$/);
 actionBasedIcons.keys().forEach(actionBasedIcons);

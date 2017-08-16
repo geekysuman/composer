@@ -16,7 +16,6 @@ import { EditorService } from './editor.service';
 import { UploadFile }  from '../services/upload-item.service';
 import AuthHelper from '../helpers/auth.helper';
 
-
 import { ModelFile, Script, ScriptManager, ModelManager, AclManager, AclFile, QueryFile, QueryManager } from 'composer-common';
 
 import 'rxjs/add/operator/takeWhile';
@@ -43,7 +42,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     private noError: boolean = true;
     private dirty: boolean = false;
     private deploying: boolean = false;
-    private publishInProgress:boolean = false;
+    private publishInProgress: boolean = false;
 
     private editActive: boolean = false; // Are the input boxes visible?
     private editingPackage: boolean = false; // Is the package.json being edited?
@@ -406,38 +405,39 @@ export class EditorComponent implements OnInit, OnDestroy {
     }
 
     exportBNA() {
-                // console.log("Auth Status",this.authHelper.isAuthenticate())
-        if(this.authHelper.isAuthenticate()){
+        if (this.authHelper.isAuthenticate()) {
             return this.clientService.getBusinessNetwork().toArchive().then((exportedData) => {
-                this.publishInProgress = true;
-                const file_name = this.clientService.getBusinessNetworkName() + '_'+ this.clientService.getBusinessNetworkVersion() + '_' + this.authHelper.getPresentUser().hash + '_' +  Date.now() + '.bna';
+                this.alertService.publishStatus$.next({
+                   title: 'Publishing...'
+                });
+                const fileName = this.clientService.getBusinessNetworkName() + '_' + this.clientService.getBusinessNetworkVersion() + '_' + this.authHelper.getPresentUser().hash + '_' +  Date.now() + '.bna';
                 let file = new File([exportedData],
-                    file_name,
+                    fileName,
                     {type: 'application/octet-stream'});
                 let UploadFileItem = new UploadFile(file);
                 const publishedDate = new Date();
                 const publishedDateStr = publishedDate.toDateString();
                 const publishedTime = publishedDate.toLocaleTimeString();
                 UploadFileItem.formData = {
-                    app_name: this.clientService.getBusinessNetworkName()+' ( '+this.clientService.getBusinessNetworkVersion()+' )',
+                    app_name: this.clientService.getBusinessNetworkName() + ' ( ' + this.clientService.getBusinessNetworkVersion() + ' )',
                     version: this.clientService.getBusinessNetworkVersion(),
                     user: this.authHelper.getPresentUser().hash,
-                    bna_file_name: file_name,
-                    description: "Published on " + publishedDateStr + ' ' + publishedTime
+                    bna_file_name: fileName,
+                    description: 'Published on ' + publishedDateStr + ' ' + publishedTime
                 };
-                
-                // Publish .bna file 
+
+                // Publish .bna file
                 this.uploaderService.onSuccessUpload = (item, response, status, headers) => {
                     // success callback
-                    // console.log("type of response "+typeof response, response);
-                    this.publishInProgress = false;
+                    this.alertService.publishStatus$.next();
                     let jsonResponse;
-                    if(typeof response === 'string')
+                    if (typeof response === 'string') {
                         jsonResponse = JSON.parse(response);
-                    else
-                        jsonResponse = response;                        
-                    if(!this.authHelper.getEndPoint()){
-                       this.authHelper.setEndPoint(jsonResponse.api_end_point)
+                    } else {
+                        jsonResponse = response;
+                    }
+                    if (!this.authHelper.getEndPoint()) {
+                       this.authHelper.setEndPoint(jsonResponse.api_end_point);
                     //    console.log('inside session set point',this.authHelper.getEndPoint());
                     }
                     this.alertService.successStatus$.next({
@@ -454,7 +454,7 @@ export class EditorComponent implements OnInit, OnDestroy {
                 };
                 this.uploaderService.upload(UploadFileItem);
             });
-        }else{
+        } else {
             this.modalService.open(AuthLoginComponent);
         }
     }
