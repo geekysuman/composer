@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { UploadItem }    from 'angular2-http-file-upload';
 
-@Injectable() 
+@Injectable()
 export class UploadFile extends UploadItem {
     // private bna_file;
     constructor(file: any) {

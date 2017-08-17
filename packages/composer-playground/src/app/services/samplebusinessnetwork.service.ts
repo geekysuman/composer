@@ -7,7 +7,6 @@ import { AlertService } from '../basic-modals/alert.service';
 import AuthHelper from '../helpers/auth.helper';
 import { BusinessNetworkDefinition } from 'composer-common';
 
-
 @Injectable()
 export class SampleBusinessNetworkService {
     constructor(private adminService: AdminService,
@@ -17,7 +16,7 @@ export class SampleBusinessNetworkService {
                 private authHelper: AuthHelper) {
     }
 
-    public getSampleList() {        
+    public getSampleList() {
         const userQuery = '?user=' + this.authHelper.getPresentUser().hash;
         return this.http.get(PUBLISH_URL + userQuery)
             .toPromise()
@@ -44,7 +43,7 @@ export class SampleBusinessNetworkService {
         return this.http.get('/api/downloadbna', requestOptions)
             .toPromise()
             .then((response) => {
-                console.log("Download Sample Response",response);
+                console.log('Download Sample Response', response);
                 return BusinessNetworkDefinition.fromArchive((<any> response)._body);
             })
             .then((businessNetwork) => {
